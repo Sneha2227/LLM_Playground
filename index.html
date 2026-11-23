@@ -1,0 +1,2954 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus AI Studio · Next-Gen LLM Platform</title>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+/* ==========================================================================
+   NEXUS AI STUDIO & LLM PLAYGROUND - DESIGN SYSTEM
+   Modern Dark/Light Glassmorphism, Micro-animations & High-Density UI
+   ========================================================================== */
+
+:root {
+  --bg-primary: #090a0f;
+  --bg-secondary: #0f1118;
+  --bg-surface: #151824;
+  --bg-surface-elevated: #1c2030;
+  --bg-glass: rgba(21, 24, 36, 0.75);
+  
+  --border-subtle: #232738;
+  --border-medium: #30364e;
+  --border-highlight: rgba(99, 102, 241, 0.4);
+
+  --text-primary: #f1f3f9;
+  --text-secondary: #9da4be;
+  --text-muted: #646b85;
+  --text-inverse: #090a0f;
+
+  --accent-primary: #6366f1; /* Indigo */
+  --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+  --accent-glow: rgba(99, 102, 241, 0.35);
+  --accent-subtle: rgba(99, 102, 241, 0.12);
+
+  --success: #10b981;
+  --success-glow: rgba(16, 185, 129, 0.25);
+  --warning: #f59e0b;
+  --warning-glow: rgba(245, 158, 11, 0.25);
+  --danger: #ef4444;
+  --danger-glow: rgba(239, 68, 68, 0.25);
+  --cyan: #06b6d4;
+
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 24px var(--accent-glow);
+
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-surface: #f1f5f9;
+  --bg-surface-elevated: #e2e8f0;
+  --bg-glass: rgba(255, 255, 255, 0.85);
+
+  --border-subtle: #e2e8f0;
+  --border-medium: #cbd5e1;
+  --border-highlight: rgba(99, 102, 241, 0.4);
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-inverse: #ffffff;
+
+  --accent-glow: rgba(99, 102, 241, 0.18);
+  --accent-subtle: rgba(99, 102, 241, 0.08);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+/* Base Styles */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+[hidden] { display: none !important; }
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-medium); border-radius: var(--radius-full); }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* Master App Container */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.06), transparent 40%),
+              radial-gradient(circle at 100% 100%, rgba(217, 70, 239, 0.04), transparent 40%);
+}
+
+/* ==========================================================================
+   NAVIGATION & TOPBAR
+   ========================================================================== */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 18px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle);
+  z-index: 100;
+  gap: 12px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.brand-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 0 14px var(--accent-glow);
+}
+
+.brand-badge {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+  background: var(--accent-subtle);
+  color: var(--accent-primary);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+/* Mode Switcher Tabs */
+.mode-nav {
+  display: flex;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 3px;
+  gap: 2px;
+}
+
+.mode-tab {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 14px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.mode-tab:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.mode-tab.active {
+  color: #fff;
+  background: var(--accent-primary);
+  box-shadow: 0 2px 8px var(--accent-glow);
+  font-weight: 600;
+}
+
+/* Topbar Actions */
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  font-size: 11px;
+  color: var(--success);
+  font-weight: 500;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 8px var(--success);
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+/* Action Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 13px;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  font-weight: 500;
+  border: 1px solid var(--border-medium);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn:hover {
+  background: var(--bg-surface-elevated);
+  border-color: var(--text-muted);
+}
+
+.btn-primary {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 2px 10px var(--accent-glow);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 4px 16px var(--accent-glow);
+}
+
+.btn-stop {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: var(--danger);
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.btn-stop:hover {
+  background: var(--danger);
+  color: #ffffff;
+}
+
+.btn-sm {
+  padding: 3px 8px;
+  font-size: 11.5px;
+}
+
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: var(--radius-sm);
+}
+
+/* ==========================================================================
+   WORKSPACE 3-COLUMN LAYOUT
+   ========================================================================== */
+.main-workspace {
+  display: grid;
+  grid-template-columns: 290px 1fr 340px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.main-workspace.hide-insights {
+  grid-template-columns: 290px 1fr 0px;
+}
+
+.main-workspace.hide-params {
+  grid-template-columns: 0px 1fr 340px;
+}
+
+.sidebar-col {
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-subtle);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 16px;
+  min-width: 0;
+}
+
+.insights-col {
+  background: var(--bg-secondary);
+  border-left: 1px solid var(--border-subtle);
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.center-col {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--bg-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   FORM CONTROLS & SIDEBAR ACCORDIONS
+   ========================================================================== */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.input-text, .select-input, .textarea-input {
+  width: 100%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  padding: 7px 10px;
+  font-family: inherit;
+  font-size: 12.5px;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.input-text:focus, .select-input:focus, .textarea-input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px var(--accent-subtle);
+}
+
+.input-password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-password-wrap input {
+  padding-right: 32px;
+}
+
+.input-password-wrap .toggle-eye {
+  position: absolute;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+}
+
+.input-password-wrap .toggle-eye:hover {
+  color: var(--text-primary);
+}
+
+/* Sliders */
+.slider-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.slider-input {
+  flex: 1;
+  appearance: none;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--border-medium);
+  outline: none;
+}
+
+.slider-input::-webkit-slider-thumb {
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  cursor: pointer;
+  box-shadow: 0 0 8px var(--accent-glow);
+  transition: transform var(--transition-fast);
+}
+
+.slider-input::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.slider-val-box {
+  width: 58px;
+  padding: 4px 6px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  text-align: center;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  color: var(--text-primary);
+}
+
+/* Preset Pills */
+.pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 4px;
+}
+
+.pill-btn {
+  font-size: 10.5px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.pill-btn:hover, .pill-btn.active {
+  background: var(--accent-subtle);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+/* Switches & Toggles */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+}
+
+.toggle-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.toggle-title {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.toggle-desc {
+  font-size: 10.5px;
+  color: var(--text-muted);
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.switch input { opacity: 0; width: 0; height: 0; }
+
+.switch-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: var(--border-medium);
+  border-radius: 34px;
+  transition: var(--transition-fast);
+}
+
+.switch-slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  transition: var(--transition-fast);
+}
+
+.switch input:checked + .switch-slider {
+  background-color: var(--accent-primary);
+}
+
+.switch input:checked + .switch-slider:before {
+  transform: translateX(16px);
+}
+
+/* ==========================================================================
+   CHAT / PLAYGROUND TRANSCRIPT
+   ========================================================================== */
+.transcript-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  scroll-behavior: smooth;
+}
+
+.chat-bubble {
+  max-width: 88%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: fadeIn 200ms ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-bubble.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15));
+  border: 1px solid rgba(99, 102, 241, 0.35);
+  border-radius: var(--radius-lg) var(--radius-lg) 2px var(--radius-lg);
+  padding: 12px 16px;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  white-space: pre-wrap;
+  box-shadow: 0 2px 12px rgba(99, 102, 241, 0.1);
+}
+
+.chat-bubble.assistant {
+  align-self: flex-start;
+  width: 90%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) 2px;
+  padding: 16px 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.bubble-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.model-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 600;
+  color: var(--accent-primary);
+}
+
+/* Thinking Accordion */
+.thinking-box {
+  margin: 8px 0;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.thinking-summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  cursor: pointer;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--warning);
+  background: rgba(245, 158, 11, 0.08);
+  user-select: none;
+}
+
+.thinking-content {
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: pre-wrap;
+  max-height: 280px;
+  overflow-y: auto;
+  border-top: 1px solid var(--border-subtle);
+  line-height: 1.6;
+}
+
+/* Markdown Answer Rendering */
+.answer-content {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--text-primary);
+}
+
+.answer-content p { margin-bottom: 12px; }
+.answer-content h1, .answer-content h2, .answer-content h3 {
+  margin: 16px 0 8px;
+  color: #fff;
+  font-weight: 600;
+}
+.answer-content ul, .answer-content ol { margin-bottom: 12px; padding-left: 20px; }
+.answer-content li { margin-bottom: 4px; }
+.answer-content code:not(pre code) {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  color: #e0e7ff;
+}
+
+/* Code Blocks with Copy and Preview Buttons */
+.code-block-container {
+  position: relative;
+  margin: 14px 0;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #08090d;
+}
+
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.code-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.code-block-container pre {
+  padding: 12px 14px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #f8fafc;
+}
+
+/* Bubble Footer & Actions */
+.bubble-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.bubble-tags {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.tag-badge {
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+  font-size: 10.5px;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   PROMPT COMPOSER
+   ========================================================================== */
+.composer-area {
+  padding: 14px 24px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.composer-box {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  padding: 10px 14px;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.composer-box:focus-within {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px var(--accent-subtle);
+}
+
+.composer-textarea {
+  width: 100%;
+  min-height: 90px;
+  max-height: 280px;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.5;
+  resize: vertical;
+  outline: none;
+}
+
+.composer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.composer-shortcuts {
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex;
+  gap: 10px;
+}
+
+.kbd {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+/* ==========================================================================
+   MODE 2: DUAL-MODEL COMPARISON ARENA
+   ========================================================================== */
+.arena-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.arena-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex: 1;
+  min-height: 0;
+  gap: 1px;
+  background: var(--border-subtle);
+}
+
+.arena-pane {
+  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.arena-pane-header {
+  padding: 10px 16px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.arena-transcript {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.arena-stats-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 8px 12px;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-subtle);
+  text-align: center;
+  font-size: 11px;
+}
+
+/* ==========================================================================
+   MODE 3: PROMPT AUTO-OPTIMIZER
+   ========================================================================== */
+.optimizer-view {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow-y: auto;
+  padding: 24px;
+  gap: 24px;
+}
+
+.optimizer-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.optimizer-strategies {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.strategy-btn {
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-medium);
+  background: var(--bg-surface-elevated);
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--transition-fast);
+}
+
+.strategy-btn:hover, .strategy-btn.active {
+  border-color: var(--accent-primary);
+  background: var(--accent-subtle);
+}
+
+.strategy-title {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.strategy-desc {
+  font-size: 10.5px;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   MODE 4: ARTIFACT & HTML SANDBOX PREVIEW
+   ========================================================================== */
+.artifacts-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.artifacts-toolbar {
+  padding: 8px 16px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sandbox-container {
+  flex: 1;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.sandbox-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #ffffff;
+}
+
+/* ==========================================================================
+   INSIGHTS & ANALYTICS SIDEBAR CARDS
+   ========================================================================== */
+.insight-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.verdict-tag {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  background: var(--accent-subtle);
+  color: var(--accent-primary);
+  border: 1px solid var(--border-highlight);
+}
+
+.technique-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.technique-chip {
+  font-size: 10.5px;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.why-checklist {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11.5px;
+}
+
+.why-checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  color: var(--text-secondary);
+}
+
+.why-checklist li.inactive {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  text-align: center;
+}
+
+.metric-val {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text-primary);
+}
+
+.metric-lbl {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.usage-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.usage-table tr {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.usage-table td {
+  padding: 6px 0;
+}
+
+.usage-table td.val {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   MODALS & OVERLAYS
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-dialog {
+  width: min(840px, 100%);
+  max-height: 85vh;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-xl);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 16px 20px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 10px;
+}
+
+.code-view-box {
+  background: #08090d;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: #e2e8f0;
+  white-space: pre;
+  overflow-x: auto;
+  max-height: 420px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .main-workspace {
+    grid-template-columns: 260px 1fr 300px;
+  }
+}
+
+@media (max-width: 980px) {
+  .main-workspace {
+    grid-template-columns: 1fr;
+  }
+  .sidebar-col, .insights-col {
+    display: none;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+
+<div class="app-container">
+
+  <!-- ===================== TOPBAR ===================== -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">✦</div>
+      <span>Nexus Studio</span>
+      <span class="brand-badge">PRO</span>
+    </div>
+
+    <!-- Mode Selector Navigation -->
+    <nav class="mode-nav">
+      <button class="mode-tab active" data-mode="playground">
+        <span>💬</span> Playground
+      </button>
+      <button class="mode-tab" data-mode="arena">
+        <span>⚔️</span> Model Arena
+      </button>
+      <button class="mode-tab" data-mode="optimizer">
+        <span>🪄</span> Prompt Optimizer
+      </button>
+      <button class="mode-tab" data-mode="artifacts">
+        <span>🎨</span> Artifacts
+      </button>
+    </nav>
+
+    <!-- Topbar Actions -->
+    <div class="topbar-actions">
+      <div class="status-indicator">
+        <span class="status-dot"></span>
+        <span>LIVE API</span>
+      </div>
+      <button id="viewCodeBtn" class="btn btn-sm">
+        <span>&lt;/&gt;</span> View Code
+      </button>
+      <button id="settingsBtn" class="btn btn-sm btn-icon" title="API Settings">
+        ⚙️
+      </button>
+      <button id="themeToggleBtn" class="btn btn-sm btn-icon" title="Toggle Dark/Light Theme">
+        🌓
+      </button>
+    </div>
+  </header>
+
+  <!-- ===================== MAIN 3-COLUMN WORKSPACE ===================== -->
+  <main class="main-workspace" id="mainWorkspace">
+
+    <!-- ===================== LEFT SIDEBAR: PARAMETERS ===================== -->
+    <aside class="sidebar-col">
+      <div class="section-header">API &amp; Security</div>
+      
+      <div class="form-group">
+        <label class="form-label" for="apiKeyInput">
+          <span>API Key / Bearer Token</span>
+          <span style="font-size:10px; color:var(--success);">Private to Browser</span>
+        </label>
+        <div class="input-password-wrap">
+          <input type="password" id="apiKeyInput" class="input-text" placeholder="Paste your API key (gsk_..., sk-...)" autocomplete="off">
+          <button id="toggleKeyVisBtn" type="button" class="toggle-eye" title="Show/Hide Key">👁️</button>
+        </div>
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;">
+          <label style="font-size:11px; display:flex; align-items:center; gap:5px; color:var(--text-muted); cursor:pointer;">
+            <input type="checkbox" id="rememberKeyCheck"> Remember in browser
+          </label>
+          <a href="#" id="customUrlShortcut" onclick="openApiSettingsModal()" style="font-size:11px; color:var(--accent-primary); text-decoration:none;">Custom URL</a>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="section-header" style="margin-top:8px;">Model Selection</div>
+        <select id="modelSelect" class="select-input"></select>
+        <div id="modelsStatus" style="font-size:11px; color:var(--text-muted); margin-top:2px;">Checking models...</div>
+      </div>
+
+      <div class="form-group">
+        <div class="section-header" style="margin-top:8px;">System Prompt</div>
+        <textarea id="systemPromptInput" class="textarea-input" rows="3" placeholder="You are a helpful assistant..."></textarea>
+        
+        <!-- Preset Role Pills -->
+        <div class="pill-group">
+          <button class="pill-btn preset-pill" data-preset="engineer">Architect</button>
+          <button class="pill-btn preset-pill" data-preset="data">Data Scientist</button>
+          <button class="pill-btn preset-pill" data-preset="auditor">Auditor</button>
+          <button class="pill-btn preset-pill" data-preset="json">JSON Engine</button>
+          <button class="pill-btn preset-pill" data-preset="socratic">Socratic</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">
+          <span>Temperature</span>
+          <span style="font-size:10px; color:var(--text-muted);">Creativity</span>
+        </label>
+        <div class="slider-container">
+          <input type="range" id="tempRange" class="slider-input" min="0" max="2" step="0.05" value="0.7">
+          <input type="number" id="tempBox" class="slider-val-box" min="0" max="2" step="0.05" value="0.7">
+        </div>
+        <div class="pill-group">
+          <button class="pill-btn" onclick="document.getElementById('tempRange').value=0.2; document.getElementById('tempBox').value=0.2;">Precise 0.2</button>
+          <button class="pill-btn" onclick="document.getElementById('tempRange').value=0.7; document.getElementById('tempBox').value=0.7;">Balanced 0.7</button>
+          <button class="pill-btn" onclick="document.getElementById('tempRange').value=1.2; document.getElementById('tempBox').value=1.2;">Creative 1.2</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">
+          <span>Max Completion Tokens</span>
+        </label>
+        <div class="slider-container">
+          <input type="range" id="maxTokensRange" class="slider-input" min="64" max="4096" step="64" value="1024">
+          <input type="number" id="maxTokensBox" class="slider-val-box" min="64" max="4096" step="64" value="1024">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">
+          <span>Stop Sequences</span>
+        </label>
+        <input type="text" id="stopSeqInput" class="input-text" placeholder="e.g. Stop:, ###">
+        <span style="font-size:10.5px; color:var(--text-muted);">Comma-separated strings to halt generation</span>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <span class="toggle-title">Web Search</span>
+          <span class="toggle-desc">Browse live internet sources</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="webSearchToggle">
+          <span class="switch-slider"></span>
+        </label>
+      </div>
+
+      <button id="resetChatBtn" class="btn" style="margin-top:auto; width:100%;">
+        🔄 Reset Conversation
+      </button>
+    </aside>
+
+    <!-- ===================== CENTER COLUMN: ACTIVE VIEW ===================== -->
+    <section class="center-col">
+
+      <!-- VIEW 1: PLAYGROUND / CHAT TRANSCRIPT -->
+      <div id="playgroundView" style="display:flex; flex-direction:column; height:100%;">
+        <div id="chatTranscript" class="transcript-area">
+          <div class="chat-bubble assistant" style="align-self:center; max-width:650px; text-align:center; padding:24px 20px;">
+            <div style="font-size:24px; margin-bottom:8px;">✨</div>
+            <h3 style="font-size:16px; font-weight:600; margin-bottom:6px; color:var(--text-primary);">Welcome to Nexus AI Studio</h3>
+            <p style="font-size:13px; color:var(--text-secondary); margin-bottom:14px;">
+              Your high-performance environment for API testing, prompt tuning, dual-model comparison, and live artifact rendering.
+            </p>
+            <div style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
+              <span class="tag-badge">⚡ Real-time SSE Streaming</span>
+              <span class="tag-badge">🧠 Live Reasoning Details</span>
+              <span class="tag-badge">⚔️ Model Arena</span>
+              <span class="tag-badge">🔒 Zero-Leak Keys</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Composer Area -->
+        <div class="composer-area">
+          <div class="composer-box">
+            <textarea id="promptComposer" class="composer-textarea" placeholder="Type your prompt here... (Try classification, code generation, reasoning, or few-shot examples)"></textarea>
+            <div class="composer-bottom">
+              <div class="composer-shortcuts">
+                <span><kbd class="kbd">Cmd</kbd>+<kbd class="kbd">Enter</kbd> to submit</span>
+                <span><kbd class="kbd">Esc</kbd> to stop</span>
+              </div>
+              <button id="submitPromptBtn" class="btn btn-primary">
+                <span>⚡</span> Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 2: DUAL-MODEL COMPARISON ARENA -->
+      <div id="arenaView" class="arena-view" hidden>
+        <div class="arena-grid">
+          <!-- Pane A -->
+          <div class="arena-pane">
+            <div class="arena-pane-header">
+              <span style="font-weight:600; font-size:12px; color:var(--accent-primary);">Model A</span>
+              <select id="arenaModelA" class="select-input" style="width:200px; padding:3px 6px; font-size:11px;"></select>
+            </div>
+            <div id="arenaTranscriptA" class="arena-transcript">
+              <div class="arena-placeholder" style="color:var(--text-muted); font-size:12px; text-align:center; margin-top:40px;">
+                Model A will stream here when you submit from the prompt box.
+              </div>
+            </div>
+            <div id="arenaStatsA" class="arena-stats-bar">
+              <div>– ms TTFT</div>
+              <div>– tokens/s</div>
+              <div>– s total</div>
+            </div>
+          </div>
+
+          <!-- Pane B -->
+          <div class="arena-pane">
+            <div class="arena-pane-header">
+              <span style="font-weight:600; font-size:12px; color:var(--cyan);">Model B</span>
+              <select id="arenaModelB" class="select-input" style="width:200px; padding:3px 6px; font-size:11px;"></select>
+            </div>
+            <div id="arenaTranscriptB" class="arena-transcript">
+              <div class="arena-placeholder" style="color:var(--text-muted); font-size:12px; text-align:center; margin-top:40px;">
+                Model B will stream here when you submit from the prompt box.
+              </div>
+            </div>
+            <div id="arenaStatsB" class="arena-stats-bar">
+              <div>– ms TTFT</div>
+              <div>– tokens/s</div>
+              <div>– s total</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 3: PROMPT AUTO-OPTIMIZER -->
+      <div id="optimizerView" class="optimizer-view" hidden>
+        <div class="optimizer-card">
+          <div class="section-header">Original Draft Prompt</div>
+          <textarea id="optOriginalPrompt" class="textarea-input" style="flex:1; min-height:160px; font-family:var(--font-mono);" placeholder="Type a draft or rough prompt here to optimize..."></textarea>
+          
+          <div class="section-header">Select Transformation Strategy</div>
+          <div id="optStrategiesGrid" class="optimizer-strategies"></div>
+
+          <button id="optEnhanceBtn" class="btn btn-primary" style="margin-top:auto;">
+            <span>🪄</span> Auto-Enhance with AI
+          </button>
+        </div>
+
+        <div class="optimizer-card">
+          <div class="section-header">Optimized Production Prompt</div>
+          <textarea id="optEnhancedPrompt" class="textarea-input" style="flex:1; min-height:300px; font-family:var(--font-mono); color:var(--text-primary);" placeholder="The optimized prompt will be generated here..."></textarea>
+          
+          <div style="display:flex; justify-content:flex-end; gap:8px;">
+            <button id="optApplyBtn" class="btn btn-primary">
+              <span>🚀</span> Apply to Playground
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 4: LIVE ARTIFACT & HTML SANDBOX PREVIEW -->
+      <div id="artifactsView" class="artifacts-view" hidden>
+        <div class="artifacts-toolbar">
+          <div style="font-weight:600; font-size:12px; color:var(--text-primary);">
+            🎨 Sandbox Environment
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button class="btn btn-sm" onclick="window.artifactCanvas.setDevice('desktop')">🖥️ Desktop</button>
+            <button class="btn btn-sm" onclick="window.artifactCanvas.setDevice('tablet')">📱 Tablet</button>
+            <button class="btn btn-sm" onclick="window.artifactCanvas.setDevice('mobile')">📱 Mobile</button>
+          </div>
+        </div>
+        <div class="sandbox-container">
+          <iframe id="sandboxFrame" class="sandbox-iframe" sandbox="allow-scripts allow-modals"></iframe>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ===================== RIGHT SIDEBAR: INSIGHTS & ANALYTICS ===================== -->
+    <aside class="insights-col">
+      <!-- Prompt Intelligence Card -->
+      <div class="insight-card">
+        <div class="section-header">Prompt Intelligence</div>
+        <div style="display:flex; align-items:center; justify-content:space-between;">
+          <span id="analysisVerdict" class="verdict-tag">ZERO-SHOT</span>
+          <span style="font-size:11px; color:var(--text-muted);">Rule-Based Engine</span>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; text-align:center; padding:8px 0; border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle);">
+          <div>
+            <div id="statTokensEst" style="font-weight:700; font-family:var(--font-mono);">0</div>
+            <div style="font-size:10px; color:var(--text-muted);">Est. Tokens</div>
+          </div>
+          <div>
+            <div id="statWords" style="font-weight:700; font-family:var(--font-mono);">0</div>
+            <div style="font-size:10px; color:var(--text-muted);">Words</div>
+          </div>
+          <div>
+            <div id="statChars" style="font-weight:700; font-family:var(--font-mono);">0</div>
+            <div style="font-size:10px; color:var(--text-muted);">Chars</div>
+          </div>
+        </div>
+
+        <div class="section-header" style="margin-top:4px;">Techniques Spotted</div>
+        <div id="techniqueChips" class="technique-chips"></div>
+
+        <div class="section-header" style="margin-top:4px;">Rule Verification</div>
+        <ul id="whyList" class="why-checklist"></ul>
+      </div>
+
+      <!-- Real-time Speed & Latency -->
+      <div class="insight-card">
+        <div class="section-header">Speed &amp; Latency</div>
+        <div class="metric-grid">
+          <div>
+            <div id="metricTtft" class="metric-val">–</div>
+            <div class="metric-lbl">TTFT (ms)</div>
+          </div>
+          <div>
+            <div id="metricTps" class="metric-val">–</div>
+            <div class="metric-lbl">Tokens / s</div>
+          </div>
+          <div>
+            <div id="metricTotalTime" class="metric-val">–</div>
+            <div class="metric-lbl">Total Time</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Token Accounting -->
+      <div class="insight-card">
+        <div class="section-header">Token Accounting</div>
+        <table class="usage-table">
+          <tr>
+            <td>Input / Prompt Tokens</td>
+            <td id="usagePromptTokens" class="val">–</td>
+          </tr>
+          <tr>
+            <td>Reasoning Tokens</td>
+            <td id="usageReasoningTokens" class="val" style="color:var(--warning);">–</td>
+          </tr>
+          <tr>
+            <td>Output / Completion Tokens</td>
+            <td id="usageCompletionTokens" class="val">–</td>
+          </tr>
+          <tr style="border-top:1px solid var(--border-medium);">
+            <td><b>Total Tokens</b></td>
+            <td id="usageTotalTokens" class="val" style="color:var(--accent-primary); font-size:13px;">–</td>
+          </tr>
+        </table>
+        <p style="font-size:11px; color:var(--text-muted); line-height:1.4; margin-top:4px;">
+          Note: Input tokens accumulate across multi-turn chat sessions because the entire history is sent on each turn.
+        </p>
+      </div>
+    </aside>
+
+  </main>
+
+</div>
+
+<!-- ===================== MODAL: VIEW AS CODE ===================== -->
+<div id="viewCodeModal" class="modal-overlay" hidden>
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h3 style="font-size:14px; font-weight:600; color:var(--text-primary);">Export Current Request as Code</h3>
+      <button class="btn btn-sm modal-close-btn">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:12px; color:var(--text-secondary); margin:0;">
+        Ready-to-use production code matching your exact active conversation, model, and parameters. The API key is securely referenced via environment variables.
+      </p>
+
+      <div class="modal-tabs">
+        <button class="btn btn-sm code-tab active" data-lang="curl">cURL</button>
+        <button class="btn btn-sm code-tab" data-lang="python">Python (OpenAI SDK)</button>
+        <button class="btn btn-sm code-tab" data-lang="js">JavaScript (Node/Fetch)</button>
+        <button class="btn btn-sm code-tab" data-lang="ts">TypeScript</button>
+      </div>
+
+      <pre id="codeCurl" class="code-view-box"></pre>
+      <pre id="codePython" class="code-view-box" hidden></pre>
+      <pre id="codeJs" class="code-view-box" hidden></pre>
+      <pre id="codeTs" class="code-view-box" hidden></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== MODAL: API SETTINGS ===================== -->
+<div id="apiSettingsModal" class="modal-overlay" hidden>
+  <div class="modal-dialog" style="max-width:560px;">
+    <div class="modal-header">
+      <h3 style="font-size:14px; font-weight:600; color:var(--text-primary);">API Connection &amp; Custom Link Settings</h3>
+      <button class="btn btn-sm modal-close-btn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Provider Preset</label>
+        <select id="settingProviderSelect" class="select-input">
+          <option value="groq">Groq (Ultra-Fast Inference)</option>
+          <option value="openai">OpenAI (GPT-4o, o1, o3)</option>
+          <option value="openrouter">OpenRouter (Multi-Provider)</option>
+          <option value="ollama">Ollama (Localhost / Self-Hosted)</option>
+          <option value="custom">Custom API Link / Proxy</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Custom API Base URL</label>
+        <input type="text" id="settingCustomUrl" class="input-text" placeholder="https://your-custom-api-proxy.com/v1">
+        <p style="font-size:11px; color:var(--text-muted); margin-top:4px;">
+          Paste your proprietary or proxy API link here. This link is stored locally in your browser and will <b>never</b> be committed to GitHub.
+        </p>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
+        <button class="btn modal-close-btn">Cancel</button>
+        <button id="saveSettingsBtn" class="btn btn-primary">Save Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+
+<script>
+/* ======================== API CLIENT ======================== */
+/**
+ * UNIVERSAL API CLIENT & STREAMING ENGINE
+ * Supports Groq, OpenAI, OpenRouter, Ollama, and Custom Endpoints
+ */
+
+const PROVIDER_PRESETS = {
+  groq: {
+    name: "Groq (Ultra-Fast)",
+    baseUrl: "https://api.groq.com/openai/v1",
+    keyPlaceholder: "gsk_...",
+    defaultModels: ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "openai/gpt-oss-120b", "qwen/qwen3.8-27b"],
+    requiresKey: true
+  },
+  openai: {
+    name: "OpenAI",
+    baseUrl: "https://api.openai.com/v1",
+    keyPlaceholder: "sk-...",
+    defaultModels: ["gpt-4o", "gpt-4o-mini", "o1", "o3-mini"],
+    requiresKey: true
+  },
+  openrouter: {
+    name: "OpenRouter",
+    baseUrl: "https://openrouter.ai/api/v1",
+    keyPlaceholder: "sk-or-...",
+    defaultModels: ["anthropic/claude-3.5-sonnet", "deepseek/deepseek-r1", "meta-llama/llama-3.3-70b-instruct"],
+    requiresKey: true
+  },
+  ollama: {
+    name: "Ollama (Local)",
+    baseUrl: "http://localhost:11434/v1",
+    keyPlaceholder: "ollama (optional)",
+    defaultModels: ["llama3.2", "mistral", "deepseek-r1:8b"],
+    requiresKey: false
+  },
+  custom: {
+    name: "Custom API Link",
+    baseUrl: "",
+    keyPlaceholder: "API Key / Bearer Token",
+    defaultModels: ["default-model"],
+    requiresKey: false
+  }
+};
+
+const CAPABILITY_RULES = [
+  { prefix: "openai/gpt-oss", reasoning: "always", effort: "low", webSearch: true },
+  { prefix: "qwen/qwen3", reasoning: "optional", effort: null, webSearch: false },
+  { prefix: "deepseek-r1", reasoning: "always", effort: null, webSearch: false },
+  { prefix: "o1", reasoning: "always", effort: "medium", webSearch: false },
+  { prefix: "o3-mini", reasoning: "always", effort: "medium", webSearch: false }
+];
+
+class ApiClient {
+  constructor() {
+    this.provider = localStorage.getItem("nexus_provider") || "groq";
+    this.customBaseUrl = localStorage.getItem("nexus_custom_base_url") || "";
+    this.storageType = localStorage.getItem("nexus_storage_type") || "session"; // "session" or "local"
+    this.customHeaders = {};
+  }
+
+  getStorage() {
+    return this.storageType === "local" ? localStorage : sessionStorage;
+  }
+
+  getBaseUrl() {
+    if (this.provider === "custom" && this.customBaseUrl) {
+      return this.customBaseUrl.replace(/\/+$/, "");
+    }
+    return PROVIDER_PRESETS[this.provider]?.baseUrl || "https://api.groq.com/openai/v1";
+  }
+
+  setBaseUrl(url) {
+    this.customBaseUrl = url.trim();
+    localStorage.setItem("nexus_custom_base_url", this.customBaseUrl);
+  }
+
+  setProvider(providerKey) {
+    if (PROVIDER_PRESETS[providerKey]) {
+      this.provider = providerKey;
+      localStorage.setItem("nexus_provider", providerKey);
+    }
+  }
+
+  getKey() {
+    const key = this.getStorage().getItem(`nexus_key_${this.provider}`);
+    return key ? key.trim() : "";
+  }
+
+  setKey(key, persistInLocal = false) {
+    this.storageType = persistInLocal ? "local" : "session";
+    localStorage.setItem("nexus_storage_type", this.storageType);
+    if (key) {
+      this.getStorage().setItem(`nexus_key_${this.provider}`, key.trim());
+    } else {
+      sessionStorage.removeItem(`nexus_key_${this.provider}`);
+      localStorage.removeItem(`nexus_key_${this.provider}`);
+    }
+  }
+
+  getCapabilities(modelId) {
+    if (!modelId) return { reasoning: "none", effort: null, webSearch: false };
+    const match = CAPABILITY_RULES.find(r => modelId.toLowerCase().includes(r.prefix.toLowerCase()));
+    return match || { reasoning: "none", effort: null, webSearch: false };
+  }
+
+  async fetchModels() {
+    const baseUrl = this.getBaseUrl();
+    const key = this.getKey();
+    const headers = { "Content-Type": "application/json" };
+    if (key) headers["Authorization"] = `Bearer ${key}`;
+
+    try {
+      const resp = await fetch(`${baseUrl}/models`, { headers });
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
+      const data = await resp.json();
+      let models = [];
+      if (Array.isArray(data.data)) {
+        models = data.data.map(m => m.id);
+      } else if (Array.isArray(data)) {
+        models = data.map(m => m.id || m.name);
+      }
+      return models.filter(id => id && !/whisper|tts|embed|guard/i.test(id)).sort();
+    } catch (err) {
+      console.warn("Could not fetch remote models, using defaults:", err.message);
+      return PROVIDER_PRESETS[this.provider]?.defaultModels || ["default-model"];
+    }
+  }
+
+  /**
+   * Execute streaming Chat Completion
+   */
+  async streamChat(payload, onChunk, onDone, onError, signal) {
+    const baseUrl = this.getBaseUrl();
+    const key = this.getKey();
+    const headers = {
+      "Content-Type": "application/json",
+      ...this.customHeaders
+    };
+    if (key) headers["Authorization"] = `Bearer ${key}`;
+
+    const body = {
+      ...payload,
+      stream: true,
+      stream_options: { include_usage: true }
+    };
+
+    const startTime = performance.now();
+    let firstTokenTime = null;
+    let fullAnswer = "";
+    let thinkingText = "";
+    let usage = null;
+    let sources = [];
+    let finishReason = null;
+
+    try {
+      const resp = await fetch(`${baseUrl}/chat/completions`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(body),
+        signal
+      });
+
+      if (!resp.ok) {
+        let errDetail = resp.statusText;
+        try {
+          const errJson = await resp.json();
+          errDetail = errJson.error?.message || JSON.stringify(errJson);
+        } catch (e) {
+          errDetail = await resp.text();
+        }
+        throw new Error(`[HTTP ${resp.status}] ${errDetail}`);
+      }
+
+      const reader = resp.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+      let buffer = "";
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop(); // keep last unfinished piece
+
+        for (let line of lines) {
+          line = line.trim();
+          if (!line.startsWith("data:")) continue;
+          const dataStr = line.slice(5).trim();
+          if (dataStr === "[DONE]") continue;
+
+          try {
+            const chunk = JSON.parse(dataStr);
+            if (chunk.error) throw new Error(chunk.error.message || "Streaming error");
+
+            // Extract usage
+            if (chunk.usage || chunk.x_groq?.usage) {
+              usage = chunk.usage || chunk.x_groq.usage;
+            }
+
+            const choice = chunk.choices?.[0];
+            if (!choice) continue;
+
+            const delta = choice.delta || {};
+
+            // Reasoning / thinking delta
+            if (delta.reasoning || delta.reasoning_content) {
+              const r = delta.reasoning || delta.reasoning_content;
+              thinkingText += r;
+              onChunk({ type: "thinking", text: r, fullThinking: thinkingText });
+            }
+
+            // Answer content delta
+            if (delta.content) {
+              if (firstTokenTime === null) {
+                firstTokenTime = performance.now();
+              }
+              fullAnswer += delta.content;
+              onChunk({
+                type: "content",
+                text: delta.content,
+                fullAnswer,
+                ttft: Math.round(firstTokenTime - startTime)
+              });
+            }
+
+            // Web search tools
+            if (delta.executed_tools) {
+              for (const tool of delta.executed_tools) {
+                const results = tool.search_results?.results || [];
+                for (const r of results) {
+                  if (r.url && !sources.some(s => s.url === r.url)) {
+                    sources.push({ title: r.title || r.url, url: r.url });
+                  }
+                }
+              }
+              onChunk({ type: "sources", sources });
+            }
+
+            if (choice.finish_reason) {
+              finishReason = choice.finish_reason;
+            }
+          } catch (e) {
+            // Ignore parse errors on incomplete chunk
+          }
+        }
+      }
+
+      const totalTime = performance.now() - startTime;
+      const stats = {
+        ttft: firstTokenTime ? Math.round(firstTokenTime - startTime) : null,
+        totalTimeSeconds: (totalTime / 1000).toFixed(2),
+        tokensPerSecond: usage?.completion_tokens ? Math.round(usage.completion_tokens / (totalTime / 1000)) : null,
+        usage,
+        finishReason,
+        sources
+      };
+
+      onDone({ fullAnswer, thinkingText, stats });
+    } catch (err) {
+      if (err.name === "AbortError") {
+        onDone({ fullAnswer, thinkingText, stats: { stoppedByUser: true, usage, finishReason: "cancelled" } });
+      } else {
+        onError(err);
+      }
+    }
+  }
+}
+
+window.apiClient = new ApiClient();
+
+
+/* ======================== PROMPT ANALYZER ======================== */
+/**
+ * REAL-TIME PROMPT INTELLIGENCE & TAXONOMY ANALYZER
+ * Analyzes prompt structure, examples, CoT patterns, personas, and constraints
+ */
+
+class PromptAnalyzer {
+  static normalize(text) {
+    return text
+      .replace(/\*\*/g, "")
+      .replace(/[ \t]+((?:Output|Answer|Label|Sentiment|Category|Result|Response)\s*:)/gi, "\n$1")
+      .replace(/^(\s*Q\s*:.*?)[ \t]+(A\s*:)/gm, "$1\n$2");
+  }
+
+  static findAnsweredPairs(lines, questionRegex, answerRegex) {
+    const found = [];
+    let unanswered = 0;
+    let isOpen = false;
+
+    for (const line of lines) {
+      if (questionRegex.test(line)) {
+        isOpen = true;
+        continue;
+      }
+      const match = line.match(answerRegex);
+      if (match && isOpen) {
+        isOpen = false;
+        if (match[1] && match[1].trim()) {
+          found.push(line.trim());
+        } else {
+          unanswered++;
+        }
+      }
+    }
+    return { found, unanswered };
+  }
+
+  static analyze(rawText) {
+    if (!rawText || !rawText.trim()) {
+      return {
+        verdict: "ZERO-SHOT",
+        exampleCount: 0,
+        tokenEstimate: 0,
+        wordCount: 0,
+        charCount: 0,
+        techniques: [],
+        rules: []
+      };
+    }
+
+    const text = this.normalize(rawText);
+    const lines = text.split("\n");
+    const words = rawText.trim().split(/\s+/).length;
+    const chars = rawText.length;
+    // Standard rule of thumb: ~4 characters or ~0.75 words per token
+    const tokenEstimate = Math.ceil(chars / 3.8);
+
+    // Rule 1: Input / Output pairs
+    const io = this.findAnsweredPairs(lines, /^\s*Input\s*:/i, /^\s*Output\s*:(.*)$/i);
+    // Rule 2: Q & A pairs
+    const qa = this.findAnsweredPairs(lines, /^\s*Q\s*:/i, /^\s*A\s*:(.*)$/i);
+    // Rule 3: Arrow mappings (a -> b)
+    const arrows = lines.filter(l => /\S\s*(->|=>)\s*\S/.test(l)).map(l => l.trim());
+    // Rule 4: Delimiter blocks (### or ---)
+    const blocks = text.split(/^\s*(?:###|---)\s*$/m).filter(b => b.trim());
+    const blockCount = blocks.length > 1 ? blocks.length - 1 : 0;
+
+    const exampleRules = [
+      { label: "Input / Output pairs with answers", count: io.found.length, matches: io.found },
+      { label: "Q / A exemplar pairs", count: qa.found.length, matches: qa.found },
+      { label: "Mapping arrows (-> or =>)", count: arrows.length, matches: arrows },
+      { label: "Divider blocks (### / ---)", count: blockCount, matches: blockCount ? [`${blocks.length} sections found`] : [] }
+    ];
+
+    const maxExamples = Math.max(...exampleRules.map(r => r.count));
+
+    // Technique checks
+    const techniques = [];
+    if (/think\s+step\s+by\s+step|let'?s\s+think|chain\s+of\s+thought|break\s+down\s+reasoning/i.test(text)) {
+      techniques.push({ name: "Chain-of-Thought (CoT)", badge: "cot", desc: "Requests methodical stepwise reasoning" });
+    }
+    if (/you\s+are\s+an?|act\s+as\s+an?|pretend\s+you\s+are|role\s*:\s*/i.test(text)) {
+      techniques.push({ name: "Role / Persona", badge: "persona", desc: "Frames expertise and tone" });
+    }
+    if (/\b(do\s+not|never|avoid|must\s+not|without)\b/i.test(text)) {
+      techniques.push({ name: "Negative Constraints", badge: "constraint", desc: "Sets strict boundaries and prohibitions" });
+    }
+    if (/\b(json|markdown\s+table|bullet\s+points?|csv|xml|schema)\b/i.test(text)) {
+      techniques.push({ name: "Format Constraint", badge: "format", desc: "Enforces structured output syntax" });
+    }
+    if (/in\s+\d+\s+(sentences?|words?|lines?)|concise|briefly/i.test(text)) {
+      techniques.push({ name: "Length Budget", badge: "budget", desc: "Restricts response size" });
+    }
+
+    let verdict = "ZERO-SHOT";
+    if (maxExamples === 1) verdict = "ONE-SHOT";
+    else if (maxExamples > 1) verdict = `FEW-SHOT (${maxExamples})`;
+
+    return {
+      verdict,
+      exampleCount: maxExamples,
+      tokenEstimate,
+      wordCount: words,
+      charCount: chars,
+      techniques,
+      rules: exampleRules
+    };
+  }
+}
+
+window.PromptAnalyzer = PromptAnalyzer;
+
+
+/* ======================== CODE GENERATOR ======================== */
+/**
+ * MULTI-LANGUAGE PRODUCTION CODE GENERATOR
+ * Generates cURL, Python (OpenAI SDK), JavaScript (Fetch), and TypeScript snippets
+ */
+
+class CodeGenerator {
+  static generateCurl(baseUrl, model, messages, params) {
+    const payload = {
+      model,
+      messages,
+      temperature: params.temperature ?? 0.7,
+      max_tokens: params.maxTokens ?? 1024,
+      stream: true
+    };
+    if (params.topP !== undefined && params.topP !== 1) payload.top_p = params.topP;
+    if (params.stopSequences && params.stopSequences.length) payload.stop = params.stopSequences;
+    if (params.reasoningEffort) payload.reasoning_effort = params.reasoningEffort;
+
+    const jsonStr = JSON.stringify(payload, null, 2).replace(/'/g, "'\\''");
+    return [
+      `curl -N "${baseUrl}/chat/completions" \\`,
+      `  -H "Authorization: Bearer $API_KEY" \\`,
+      `  -H "Content-Type: application/json" \\`,
+      `  -d '${jsonStr}'`
+    ].join("\n");
+  }
+
+  static generatePython(baseUrl, model, messages, params) {
+    const pyMessages = JSON.stringify(messages, null, 4);
+    return [
+      `import os`,
+      `from openai import OpenAI`,
+      ``,
+      `# Initialize client with your custom or provider endpoint`,
+      `client = OpenAI(`,
+      `    base_url="${baseUrl}",`,
+      `    api_key=os.environ.get("API_KEY", "your-api-key-here")`,
+      `)`,
+      ``,
+      `# Create real-time streaming completion`,
+      `stream = client.chat.completions.create(`,
+      `    model="${model}",`,
+      `    messages=${pyMessages},`,
+      `    temperature=${params.temperature ?? 0.7},`,
+      `    max_tokens=${params.maxTokens ?? 1024},`,
+      `    stream=True`,
+      `)`,
+      ``,
+      `print("Assistant: ", end="", flush=True)`,
+      `for chunk in stream:`,
+      `    if chunk.choices and chunk.choices[0].delta.content:`,
+      `        print(chunk.choices[0].delta.content, end="", flush=True)`,
+      `print()`
+    ].join("\n");
+  }
+
+  static generateJavaScript(baseUrl, model, messages, params) {
+    return [
+      `// Modern ES6 / Node.js Streaming Fetch Client`,
+      `const response = await fetch("${baseUrl}/chat/completions", {`,
+      `  method: "POST",`,
+      `  headers: {`,
+      `    "Authorization": \`Bearer \${process.env.API_KEY || "YOUR_KEY"}\`,`,
+      `    "Content-Type": "application/json"`,
+      `  },`,
+      `  body: JSON.stringify({`,
+      `    model: "${model}",`,
+      `    messages: ${JSON.stringify(messages, null, 4)},`,
+      `    temperature: ${params.temperature ?? 0.7},`,
+      `    max_tokens: ${params.maxTokens ?? 1024},`,
+      `    stream: true`,
+      `  })`,
+      `});`,
+      ``,
+      `const reader = response.body.getReader();`,
+      `const decoder = new TextDecoder();`,
+      `while (true) {`,
+      `  const { done, value } = await reader.read();`,
+      `  if (done) break;`,
+      `  const chunk = decoder.decode(value);`,
+      `  for (const line of chunk.split("\\n")) {`,
+      `    if (line.startsWith("data: ") && !line.includes("[DONE]")) {`,
+      `      const delta = JSON.parse(line.slice(6)).choices[0]?.delta?.content;`,
+      `      if (delta) process.stdout.write(delta);`,
+      `    }`,
+      `  }`,
+      `}`
+    ].join("\n");
+  }
+
+  static generateTypeScript(baseUrl, model, messages, params) {
+    return [
+      `import OpenAI from "openai";`,
+      ``,
+      `const openai = new OpenAI({`,
+      `  baseURL: "${baseUrl}",`,
+      `  apiKey: process.env.API_KEY || ""`,
+      `});`,
+      ``,
+      `async function main() {`,
+      `  const completion = await openai.chat.completions.create({`,
+      `    model: "${model}",`,
+      `    messages: ${JSON.stringify(messages, null, 4)},`,
+      `    temperature: ${params.temperature ?? 0.7},`,
+      `    max_tokens: ${params.maxTokens ?? 1024},`,
+      `    stream: true`,
+      `  });`,
+      ``,
+      `  for await (const chunk of completion) {`,
+      `    process.stdout.write(chunk.choices[0]?.delta?.content || "");`,
+      `  }`,
+      `}`,
+      ``,
+      `main().catch(console.error);`
+    ].join("\n");
+  }
+}
+
+window.CodeGenerator = CodeGenerator;
+
+
+/* ======================== MODEL ARENA ======================== */
+/**
+ * DUAL-MODEL COMPARISON ARENA
+ * Executes prompt concurrently against Model A and Model B, streaming side-by-side
+ */
+
+class ModelArena {
+  constructor() {
+    this.modelA = "llama-3.3-70b-versatile";
+    this.modelB = "llama-3.1-8b-instant";
+    this.tempA = 0.7;
+    this.tempB = 0.7;
+    this.isStreaming = false;
+    this.abortController = null;
+  }
+
+  init(models) {
+    const selA = document.getElementById("arenaModelA");
+    const selB = document.getElementById("arenaModelB");
+    if (!selA || !selB) return;
+
+    selA.innerHTML = "";
+    selB.innerHTML = "";
+
+    models.forEach(m => {
+      selA.appendChild(new Option(m, m));
+      selB.appendChild(new Option(m, m));
+    });
+
+    if (models.length > 0) selA.value = models[0];
+    if (models.length > 1) selB.value = models[1];
+  }
+
+  async runComparison(promptText, systemPrompt = "") {
+    if (!promptText || !promptText.trim()) return;
+
+    const selA = document.getElementById("arenaModelA");
+    const selB = document.getElementById("arenaModelB");
+    const modelA = selA ? selA.value : this.modelA;
+    const modelB = selB ? selB.value : this.modelB;
+
+    const transA = document.getElementById("arenaTranscriptA");
+    const transB = document.getElementById("arenaTranscriptB");
+    const statsA = document.getElementById("arenaStatsA");
+    const statsB = document.getElementById("arenaStatsB");
+
+    // Clear previous comparison
+    transA.innerHTML = `<div class="arena-placeholder">Streaming Model A...</div>`;
+    transB.innerHTML = `<div class="arena-placeholder">Streaming Model B...</div>`;
+    statsA.innerHTML = `<div>TTFT: ...</div><div>TPS: ...</div><div>Total: ...</div>`;
+    statsB.innerHTML = `<div>TTFT: ...</div><div>TPS: ...</div><div>Total: ...</div>`;
+
+    this.abortController = new AbortController();
+    this.isStreaming = true;
+
+    const buildMessages = () => {
+      const msgs = [];
+      if (systemPrompt.trim()) msgs.push({ role: "system", content: systemPrompt.trim() });
+      msgs.push({ role: "user", content: promptText });
+      return msgs;
+    };
+
+    const runStream = (model, transcriptEl, statsEl) => {
+      let contentDiv = null;
+      let thinkingDiv = null;
+
+      return new Promise((resolve) => {
+        window.apiClient.streamChat(
+          {
+            model,
+            messages: buildMessages(),
+            temperature: 0.7,
+            max_tokens: 1024
+          },
+          (chunk) => {
+            if (chunk.type === "thinking") {
+              if (!thinkingDiv) {
+                transcriptEl.innerHTML = "";
+                thinkingDiv = document.createElement("details");
+                thinkingDiv.className = "thinking-box";
+                thinkingDiv.open = true;
+                thinkingDiv.innerHTML = `<summary class="thinking-summary">Thinking Process</summary><div class="thinking-content"></div>`;
+                transcriptEl.appendChild(thinkingDiv);
+              }
+              thinkingDiv.querySelector(".thinking-content").textContent = chunk.fullThinking;
+            } else if (chunk.type === "content") {
+              if (!contentDiv) {
+                if (!thinkingDiv) transcriptEl.innerHTML = "";
+                contentDiv = document.createElement("div");
+                contentDiv.className = "answer-content";
+                transcriptEl.appendChild(contentDiv);
+              }
+              contentDiv.innerHTML = window.renderMarkdownSafe(chunk.fullAnswer);
+            }
+          },
+          (res) => {
+            const st = res.stats;
+            statsEl.innerHTML = `
+              <div><b>${st.ttft ?? '–'}ms</b> TTFT</div>
+              <div><b>${st.tokensPerSecond ?? '–'}</b> tokens/s</div>
+              <div><b>${st.totalTimeSeconds ?? '–'}s</b> total</div>
+            `;
+            resolve(st);
+          },
+          (err) => {
+            transcriptEl.innerHTML = `<div class="error-badge">Error: ${err.message}</div>`;
+            resolve(null);
+          },
+          this.abortController.signal
+        );
+      });
+    };
+
+    // Run both streams concurrently
+    await Promise.all([
+      runStream(modelA, transA, statsA),
+      runStream(modelB, transB, statsB)
+    ]);
+
+    this.isStreaming = false;
+  }
+}
+
+window.modelArena = new ModelArena();
+
+
+/* ======================== OPTIMIZER ======================== */
+/**
+ * PROMPT AUTO-OPTIMIZER WORKBENCH
+ * Analyzes and transforms raw user prompts into production-grade prompts
+ */
+
+class PromptOptimizer {
+  static getStrategies() {
+    return [
+      {
+        id: "cot",
+        title: "Chain of Thought",
+        desc: "Adds explicit step-by-step reasoning decomposition for complex problem-solving",
+        transform: (raw) => {
+          return `${raw}\n\nPlease think step by step:\n1. Deconstruct the requirements and goals.\n2. Analyze core variables, edge cases, and potential pitfalls.\n3. Formulate the comprehensive solution.\n4. Conclude with a clear, concise summary.`;
+        }
+      },
+      {
+        id: "few_shot",
+        title: "Few-Shot Synthesizer",
+        desc: "Injects illustrative input/output exemplars to guide output structure and consistency",
+        transform: (raw) => {
+          return `You are a high-accuracy assistant.\n\n### Task:\n${raw}\n\n### Examples:\nExample 1:\nInput: Analyze quarterly revenue growth of 12%\nOutput: Sentiment: Positive | Key Metric: +12% | Risk: Low\n\nExample 2:\nInput: Supply chain delays prolonged by 3 weeks\nOutput: Sentiment: Negative | Key Metric: -21 days | Risk: High\n\n### Your Input:\nInput: [Provide data here]\nOutput:`;
+        }
+      },
+      {
+        id: "expert_role",
+        title: "Expert Persona & Role",
+        desc: "Assigns world-class subject matter expertise and target audience calibration",
+        transform: (raw) => {
+          return `Act as a Distinguished Principal Engineer and Subject Matter Specialist.\n\nContext & Goal:\n${raw}\n\nDeliverable Expectations:\n- Maintain rigorous technical depth with clear rationale.\n- Highlight production readiness, scalability, and security considerations.\n- Avoid generic filler or high-level platitudes.`;
+        }
+      },
+      {
+        id: "json_schema",
+        title: "Strict JSON Specification",
+        desc: "Enforces strict JSON object response without conversational chatter or markdown fences",
+        transform: (raw) => {
+          return `Perform the following task:\n${raw}\n\nCRITICAL CONSTRAINTS:\n- Output ONLY valid, parseable JSON.\n- Do NOT wrap in markdown codeblocks (no \`\`\`json).\n- Do NOT include any introductory or concluding pleasantries.\n- Schema structure:\n{\n  "status": "success",\n  "result": {},\n  "confidence_score": 0.0 to 1.0,\n  "summary": "one-line overview"\n}`;
+        }
+      },
+      {
+        id: "constraints",
+        title: "Negative Constraints & Brevity",
+        desc: "Guards against hallucinations, filler words, and limits response size",
+        transform: (raw) => {
+          return `${raw}\n\nConstraints:\n- Be dense, factual, and strictly accurate.\n- Limit output to 3 concise, high-impact bullet points.\n- DO NOT assume or invent information not supported by facts.\n- Avoid preamble ("Sure, here is...") or postamble.`;
+        }
+      }
+    ];
+  }
+
+  static applyStrategy(strategyId, rawPrompt) {
+    const strategies = this.getStrategies();
+    const target = strategies.find(s => s.id === strategyId);
+    if (!target) return rawPrompt;
+    return target.transform(rawPrompt.trim());
+  }
+
+  /**
+   * AI-Powered Auto-Enhancement (uses the active LLM to refactor the prompt)
+   */
+  static async autoEnhanceWithAI(rawPrompt, onChunk, onDone, onError) {
+    if (!rawPrompt.trim()) return;
+
+    const metaPrompt = `You are a World-Class Prompt Engineering Specialist.
+Analyze the user's draft prompt and optimize it into a structured, production-grade prompt.
+
+Draft Prompt:
+"""${rawPrompt}"""
+
+Instructions:
+1. Clarify intent and eliminate ambiguity.
+2. Structure into Role, Context, Instructions, Constraints, and Output Format.
+3. Keep the prompt directly usable (do not include meta-commentary like "Here is your prompt").
+
+Provide ONLY the enhanced prompt.`;
+
+    const model = document.getElementById("modelSelect")?.value || "llama-3.3-70b-versatile";
+
+    await window.apiClient.streamChat(
+      {
+        model,
+        messages: [{ role: "user", content: metaPrompt }],
+        temperature: 0.3,
+        max_tokens: 1024
+      },
+      onChunk,
+      onDone,
+      onError
+    );
+  }
+}
+
+window.promptOptimizer = PromptOptimizer;
+
+
+/* ======================== ARTIFACTS ======================== */
+/**
+ * LIVE ARTIFACT & CODE SANDBOX PREVIEW
+ * Sandboxes HTML, SVG, Tailwind, CSS, and JavaScript into an isolated iframe
+ */
+
+class ArtifactCanvas {
+  constructor() {
+    this.currentCode = "";
+    this.deviceMode = "desktop"; // desktop, tablet, mobile
+  }
+
+  init() {
+    const iframe = document.getElementById("sandboxFrame");
+    if (!iframe) return;
+    this.renderDefault();
+  }
+
+  setDevice(mode) {
+    this.deviceMode = mode;
+    const iframe = document.getElementById("sandboxFrame");
+    if (!iframe) return;
+
+    if (mode === "mobile") {
+      iframe.style.width = "375px";
+      iframe.style.height = "667px";
+      iframe.style.border = "1px solid var(--border-medium)";
+      iframe.style.borderRadius = "20px";
+    } else if (mode === "tablet") {
+      iframe.style.width = "768px";
+      iframe.style.height = "1024px";
+      iframe.style.border = "1px solid var(--border-medium)";
+      iframe.style.borderRadius = "12px";
+    } else {
+      iframe.style.width = "100%";
+      iframe.style.height = "100%";
+      iframe.style.border = "none";
+      iframe.style.borderRadius = "0";
+    }
+  }
+
+  extractCodeFromText(text) {
+    // Look for ```html or ```xml or ```svg codeblocks
+    const htmlMatch = text.match(/```(?:html|svg|xml)?\s*([\s\S]*?)```/i);
+    if (htmlMatch && (htmlMatch[1].includes("<html") || htmlMatch[1].includes("<div") || htmlMatch[1].includes("<svg"))) {
+      return htmlMatch[1].trim();
+    }
+    return text.trim();
+  }
+
+  renderCode(rawCode) {
+    const iframe = document.getElementById("sandboxFrame");
+    if (!iframe) return;
+
+    this.currentCode = rawCode;
+
+    // Build self-contained HTML document with Tailwind CSS included
+    const fullHtml = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"><\/script>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; padding: 16px; margin: 0; background: #ffffff; color: #0f172a; }
+  </style>
+</head>
+<body>
+  ${rawCode}
+</body>
+</html>`;
+
+    iframe.srcdoc = fullHtml;
+  }
+
+  renderDefault() {
+    this.renderCode(`
+      <div class="max-w-md mx-auto my-8 p-6 bg-slate-50 border border-slate-200 rounded-xl shadow-sm text-center">
+        <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center mx-auto mb-4 font-bold text-xl">🎨</div>
+        <h3 class="text-lg font-semibold text-slate-800 mb-2">Live Artifact Preview</h3>
+        <p class="text-sm text-slate-500 mb-4">Generate HTML, Tailwind widgets, cards, or dashboards in the Playground, then click <b>"Preview Artifact"</b> to interact with it live here.</p>
+        <button class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors shadow">Interactive Button</button>
+      </div>
+    `);
+  }
+}
+
+window.artifactCanvas = new ArtifactCanvas();
+
+
+/* ======================== APP CONTROLLER ======================== */
+/**
+ * NEXUS AI STUDIO - MASTER APPLICATION CONTROLLER
+ */
+
+const SYSTEM_PROMPT_PRESETS = {
+  general: "You are a helpful, brilliant, and precise AI assistant.",
+  engineer: "You are a Senior Principal Software Architect. Provide robust, production-ready, clean code with concise technical explanations, security awareness, and zero fluff.",
+  data: "You are an expert Data Scientist and ML Engineer. Provide actionable mathematical insights, clear Python/Pandas/PyTorch implementations, and structured data analysis.",
+  auditor: "You are a Critical Security Auditor. Thoroughly analyze inputs for vulnerabilities (OWASP Top 10, injection, edge cases, race conditions), and propose concrete defensive patches.",
+  json: "You are a Structured Data Extraction Engine. Extract information from the input and respond STRICTLY in valid, unquoted JSON conforming to the requested schema. Do not include markdown codeblocks or conversational text.",
+  socratic: "You are a Socratic Mentor. Guide the user through problem-solving by asking insightful, thought-provoking questions and encouraging first-principles reasoning."
+};
+
+let conversation = [];
+let isStreaming = false;
+let currentAbortController = null;
+let currentMode = "playground"; // "playground", "arena", "optimizer", "artifacts"
+
+// Helper: Safe Markdown Rendering
+function escapeHtml(str) {
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+
+function renderMarkdownSafe(text) {
+  if (!text) return "";
+  const parts = escapeHtml(text).split("```");
+  return parts.map((part, index) => {
+    if (index % 2 === 0) {
+      // Normal markdown text
+      return part
+        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+        .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+        .replace(/`([^`]+)`/gim, '<code>$1</code>')
+        .replace(/\n\n/gim, '<p></p>')
+        .replace(/\n/gim, '<br>');
+    } else {
+      // Code block
+      const newlineIdx = part.indexOf("\n");
+      const lang = newlineIdx !== -1 ? part.slice(0, newlineIdx).trim() : "";
+      const code = newlineIdx !== -1 ? part.slice(newlineIdx + 1) : part;
+      const isHtml = /html|svg|xml/i.test(lang) || code.includes("&lt;div") || code.includes("&lt;html");
+
+      return `
+        <div class="code-block-container">
+          <div class="code-header">
+            <span>${lang || 'code'}</span>
+            <div class="code-actions">
+              ${isHtml ? '<button class="btn btn-sm" onclick="previewCodeBlock(this)">🎨 Preview Artifact</button>' : ''}
+              <button class="btn btn-sm copy-btn" onclick="copyCodeBlock(this)">📋 Copy</button>
+            </div>
+          </div>
+          <pre><code>${code.replace(/\n$/, "")}</code></pre>
+        </div>
+      `;
+    }
+  }).join("");
+}
+window.renderMarkdownSafe = renderMarkdownSafe;
+
+// Copy helper
+window.copyCodeBlock = function(btn) {
+  const code = btn.closest(".code-block-container").querySelector("pre code").innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    const originalText = btn.innerText;
+    btn.innerText = "✓ Copied!";
+    setTimeout(() => { btn.innerText = originalText; }, 1500);
+  });
+};
+
+window.previewCodeBlock = function(btn) {
+  const code = btn.closest(".code-block-container").querySelector("pre code").innerText;
+  switchMode("artifacts");
+  window.artifactCanvas.renderCode(code);
+};
+
+// Mode Navigation
+function switchMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll(".mode-tab").forEach(tab => {
+    tab.classList.toggle("active", tab.dataset.mode === mode);
+  });
+
+  document.getElementById("playgroundView").hidden = mode !== "playground";
+  document.getElementById("arenaView").hidden = mode !== "arena";
+  document.getElementById("optimizerView").hidden = mode !== "optimizer";
+  document.getElementById("artifactsView").hidden = mode !== "artifacts";
+
+  // Hide or show columns based on mode
+  const workspace = document.getElementById("mainWorkspace");
+  if (mode === "arena" || mode === "artifacts") {
+    workspace.classList.add("hide-insights");
+  } else {
+    workspace.classList.remove("hide-insights");
+  }
+}
+
+// Sliders and Number Inputs Sync
+function syncSlider(sliderId, boxId) {
+  const slider = document.getElementById(sliderId);
+  const box = document.getElementById(boxId);
+  if (!slider || !box) return;
+
+  slider.addEventListener("input", () => { box.value = slider.value; });
+  box.addEventListener("input", () => { slider.value = box.value; });
+  box.addEventListener("change", () => { box.value = slider.value; });
+}
+
+// Populate Models
+async function refreshModelDropdown() {
+  const select = document.getElementById("modelSelect");
+  const status = document.getElementById("modelsStatus");
+  status.textContent = "Loading models...";
+
+  const models = await window.apiClient.fetchModels();
+  select.innerHTML = "";
+
+  models.forEach(m => {
+    const opt = new Option(m, m);
+    select.appendChild(opt);
+  });
+
+  const preferred = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "gpt-4o", "gpt-4o-mini"];
+  const defaultPick = preferred.find(p => models.includes(p)) || models[0];
+  if (defaultPick) select.value = defaultPick;
+
+  status.textContent = `${models.length} models ready`;
+
+  // Also init Arena dropdowns
+  window.modelArena.init(models);
+}
+
+// Build Request Payload
+function buildPayload(extraUserPrompt = null) {
+  const model = document.getElementById("modelSelect").value;
+  const temp = parseFloat(document.getElementById("tempRange").value);
+  const maxTokens = parseInt(document.getElementById("maxTokensRange").value, 10);
+  const systemPrompt = document.getElementById("systemPromptInput").value.trim();
+
+  const messages = [];
+  if (systemPrompt) {
+    messages.push({ role: "system", content: systemPrompt });
+  }
+
+  conversation.forEach(m => {
+    messages.push({ role: m.role, content: m.content });
+  });
+
+  if (extraUserPrompt) {
+    messages.push({ role: "user", content: extraUserPrompt });
+  }
+
+  const payload = {
+    model,
+    messages,
+    temperature: temp,
+    max_tokens: maxTokens
+  };
+
+  const stopSeq = document.getElementById("stopSeqInput").value.trim();
+  if (stopSeq) {
+    payload.stop = stopSeq.split(",").map(s => s.trim()).filter(Boolean);
+  }
+
+  return payload;
+}
+
+// Create Assistant Bubble in Transcript
+function appendAssistantBubble(payload) {
+  const transcript = document.getElementById("chatTranscript");
+  const bubble = document.createElement("div");
+  bubble.className = "chat-bubble assistant";
+
+  bubble.innerHTML = `
+    <div class="bubble-header">
+      <div class="model-tag">
+        <span>⚡</span> <span>${payload.model}</span>
+      </div>
+      <div class="bubble-meta">temp: ${payload.temperature} · max: ${payload.max_tokens}</div>
+    </div>
+    <div class="bubble-status" style="font-size:11px; color:var(--warning); display:flex; align-items:center; gap:6px;">
+      <span class="status-dot"></span> Generating response...
+    </div>
+    <details class="thinking-box" hidden>
+      <summary class="thinking-summary">🧠 Reasoning Process</summary>
+      <div class="thinking-content"></div>
+    </details>
+    <div class="answer-content"></div>
+    <div class="sources-container" style="display:flex; flex-direction:column; gap:4px; margin-top:8px;"></div>
+    <div class="bubble-footer">
+      <div class="bubble-tags">
+        <span class="tag-badge status-badge" hidden></span>
+      </div>
+      <div style="display:flex; gap:6px;">
+        <button class="btn btn-sm" onclick="copyReplyText(this)">📋 Copy</button>
+      </div>
+    </div>
+  `;
+
+  transcript.appendChild(bubble);
+  transcript.scrollTop = transcript.scrollHeight;
+
+  return {
+    el: bubble,
+    status: bubble.querySelector(".bubble-status"),
+    thinking: bubble.querySelector(".thinking-box"),
+    thinkingText: bubble.querySelector(".thinking-content"),
+    answer: bubble.querySelector(".answer-content"),
+    sources: bubble.querySelector(".sources-container"),
+    badge: bubble.querySelector(".status-badge")
+  };
+}
+
+window.copyReplyText = function(btn) {
+  const text = btn.closest(".chat-bubble").querySelector(".answer-content").innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.innerText = "✓ Copied!";
+    setTimeout(() => { btn.innerText = "📋 Copy"; }, 1500);
+  });
+};
+
+// Send Prompt Execution
+async function submitPrompt() {
+  const promptInput = document.getElementById("promptComposer");
+  const promptText = promptInput.value.trim();
+  if (!promptText) return;
+
+  // Handle modes
+  if (currentMode === "arena") {
+    const sys = document.getElementById("systemPromptInput").value;
+    window.modelArena.runComparison(promptText, sys);
+    promptInput.value = "";
+    return;
+  }
+
+  if (currentMode === "optimizer") {
+    document.getElementById("optOriginalPrompt").value = promptText;
+    promptInput.value = "";
+    return;
+  }
+
+  // Playground Chat Mode
+  // Add user bubble
+  const transcript = document.getElementById("chatTranscript");
+  const userBubble = document.createElement("div");
+  userBubble.className = "chat-bubble user";
+  userBubble.textContent = promptText;
+  transcript.appendChild(userBubble);
+  transcript.scrollTop = transcript.scrollHeight;
+
+  conversation.push({ role: "user", content: promptText });
+  promptInput.value = "";
+  updatePromptAnalysis();
+
+  const payload = buildPayload();
+  const bubbleView = appendAssistantBubble(payload);
+
+  isStreaming = true;
+  updateStreamButtonState(true);
+  currentAbortController = new AbortController();
+
+  let firstAnswerReceived = false;
+
+  await window.apiClient.streamChat(
+    payload,
+    (chunk) => {
+      if (chunk.type === "thinking") {
+        bubbleView.thinking.hidden = false;
+        bubbleView.thinkingText.textContent = chunk.fullThinking;
+        bubbleView.thinkingText.scrollTop = bubbleView.thinkingText.scrollHeight;
+      } else if (chunk.type === "content") {
+        if (!firstAnswerReceived) {
+          firstAnswerReceived = true;
+          bubbleView.status.hidden = true;
+          bubbleView.thinking.open = false; // collapse thinking when real answer starts
+        }
+        bubbleView.answer.innerHTML = renderMarkdownSafe(chunk.fullAnswer);
+      } else if (chunk.type === "sources") {
+        bubbleView.sources.innerHTML = chunk.sources.map((s, i) =>
+          `<a href="${s.url}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-primary); font-size:11px;">[${i+1}] ${s.title}</a>`
+        ).join("");
+      }
+      transcript.scrollTop = transcript.scrollHeight;
+    },
+    (res) => {
+      bubbleView.status.hidden = true;
+      if (res.fullAnswer) {
+        conversation.push({ role: "assistant", content: res.fullAnswer });
+      }
+      if (res.stats) {
+        bubbleView.badge.hidden = false;
+        bubbleView.badge.textContent = res.stats.stoppedByUser ? "Cancelled" : `Finished (${res.stats.finishReason || 'stop'})`;
+        updateInsightsMetrics(res.stats);
+      }
+      isStreaming = false;
+      updateStreamButtonState(false);
+      currentAbortController = null;
+    },
+    (err) => {
+      bubbleView.status.hidden = true;
+      bubbleView.answer.innerHTML += `<div style="padding:10px; background:rgba(239,68,68,0.15); border:1px solid var(--danger); border-radius:6px; color:var(--danger); margin-top:8px;"><b>Error:</b> ${err.message}</div>`;
+      isStreaming = false;
+      updateStreamButtonState(false);
+      currentAbortController = null;
+    },
+    currentAbortController.signal
+  );
+}
+
+function updateStreamButtonState(streaming) {
+  const btn = document.getElementById("submitPromptBtn");
+  if (!btn) return;
+  if (streaming) {
+    btn.className = "btn btn-stop";
+    btn.innerHTML = `<span>■</span> Stop`;
+  } else {
+    btn.className = "btn btn-primary";
+    btn.innerHTML = `<span>⚡</span> Submit`;
+  }
+}
+
+// Live Prompt Analytics
+function updatePromptAnalysis() {
+  const text = document.getElementById("promptComposer").value;
+  const analysis = window.PromptAnalyzer.analyze(text);
+
+  document.getElementById("analysisVerdict").textContent = analysis.verdict;
+  document.getElementById("statTokensEst").textContent = analysis.tokenEstimate;
+  document.getElementById("statWords").textContent = analysis.wordCount;
+  document.getElementById("statChars").textContent = analysis.charCount;
+
+  // Chips
+  const chipsContainer = document.getElementById("techniqueChips");
+  chipsContainer.innerHTML = "";
+  if (analysis.techniques.length === 0) {
+    chipsContainer.innerHTML = `<span style="font-size:11px; color:var(--text-muted)">No specialized prompt patterns detected yet.</span>`;
+  } else {
+    analysis.techniques.forEach(t => {
+      const chip = document.createElement("span");
+      chip.className = "technique-chip";
+      chip.textContent = t.name;
+      chipsContainer.appendChild(chip);
+    });
+  }
+
+  // Why Checklist
+  const whyList = document.getElementById("whyList");
+  whyList.innerHTML = "";
+  analysis.rules.forEach(r => {
+    const li = document.createElement("li");
+    li.className = r.count > 0 ? "active" : "inactive";
+    li.innerHTML = `<span>${r.count > 0 ? '✓' : '✗'}</span> <span>${r.label} (count: ${r.count})</span>`;
+    whyList.appendChild(li);
+  });
+}
+
+function updateInsightsMetrics(stats) {
+  document.getElementById("metricTtft").textContent = stats.ttft ? `${stats.ttft}ms` : "–";
+  document.getElementById("metricTps").textContent = stats.tokensPerSecond || "–";
+  document.getElementById("metricTotalTime").textContent = stats.totalTimeSeconds ? `${stats.totalTimeSeconds}s` : "–";
+
+  if (stats.usage) {
+    document.getElementById("usagePromptTokens").textContent = stats.usage.prompt_tokens?.toLocaleString() || "–";
+    document.getElementById("usageReasoningTokens").textContent = (stats.usage.completion_tokens_details?.reasoning_tokens || 0).toLocaleString();
+    document.getElementById("usageCompletionTokens").textContent = stats.usage.completion_tokens?.toLocaleString() || "–";
+    document.getElementById("usageTotalTokens").textContent = stats.usage.total_tokens?.toLocaleString() || "–";
+  }
+}
+
+// Modal: View Code
+function openViewCodeModal() {
+  const modal = document.getElementById("viewCodeModal");
+  const payload = buildPayload(document.getElementById("promptComposer").value);
+  const baseUrl = window.apiClient.getBaseUrl();
+
+  const curlCode = window.CodeGenerator.generateCurl(baseUrl, payload.model, payload.messages, payload);
+  const pyCode = window.CodeGenerator.generatePython(baseUrl, payload.model, payload.messages, payload);
+  const jsCode = window.CodeGenerator.generateJavaScript(baseUrl, payload.model, payload.messages, payload);
+  const tsCode = window.CodeGenerator.generateTypeScript(baseUrl, payload.model, payload.messages, payload);
+
+  document.getElementById("codeCurl").textContent = curlCode;
+  document.getElementById("codePython").textContent = pyCode;
+  document.getElementById("codeJs").textContent = jsCode;
+  document.getElementById("codeTs").textContent = tsCode;
+
+  modal.hidden = false;
+}
+
+// Modal: API Settings
+function openApiSettingsModal() {
+  const modal = document.getElementById("apiSettingsModal");
+  document.getElementById("settingCustomUrl").value = window.apiClient.customBaseUrl;
+  document.getElementById("settingProviderSelect").value = window.apiClient.provider;
+  modal.hidden = false;
+}
+
+// Document Ready Initialization
+document.addEventListener("DOMContentLoaded", () => {
+  // Sync sliders
+  syncSlider("tempRange", "tempBox");
+  syncSlider("maxTokensRange", "maxTokensBox");
+
+  // Restore API key
+  const apiKeyInput = document.getElementById("apiKeyInput");
+  apiKeyInput.value = window.apiClient.getKey();
+  apiKeyInput.addEventListener("input", (e) => {
+    const remember = document.getElementById("rememberKeyCheck").checked;
+    window.apiClient.setKey(e.target.value, remember);
+  });
+
+  document.getElementById("rememberKeyCheck").addEventListener("change", (e) => {
+    window.apiClient.setKey(apiKeyInput.value, e.target.checked);
+  });
+
+  document.getElementById("toggleKeyVisBtn").addEventListener("click", () => {
+    apiKeyInput.type = apiKeyInput.type === "password" ? "text" : "password";
+  });
+
+  // Mode navigation
+  document.querySelectorAll(".mode-tab").forEach(tab => {
+    tab.addEventListener("click", () => switchMode(tab.dataset.mode));
+  });
+
+  // Prompt Analysis on typing
+  const composer = document.getElementById("promptComposer");
+  composer.addEventListener("input", updatePromptAnalysis);
+
+  // Keyboard Shortcuts: Cmd+Enter / Ctrl+Enter to submit, Esc to stop/close
+  composer.addEventListener("keydown", (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+      e.preventDefault();
+      if (!isStreaming) submitPrompt();
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      if (isStreaming && currentAbortController) {
+        currentAbortController.abort();
+      } else {
+        document.getElementById("viewCodeModal").hidden = true;
+        document.getElementById("apiSettingsModal").hidden = true;
+      }
+    }
+  });
+
+  document.getElementById("submitPromptBtn").addEventListener("click", () => {
+    if (isStreaming && currentAbortController) {
+      currentAbortController.abort();
+    } else {
+      submitPrompt();
+    }
+  });
+
+  // System Prompt Presets
+  document.querySelectorAll(".preset-pill").forEach(pill => {
+    pill.addEventListener("click", () => {
+      const presetKey = pill.dataset.preset;
+      if (SYSTEM_PROMPT_PRESETS[presetKey]) {
+        document.getElementById("systemPromptInput").value = SYSTEM_PROMPT_PRESETS[presetKey];
+      }
+    });
+  });
+
+  // Reset Conversation
+  document.getElementById("resetChatBtn").addEventListener("click", () => {
+    conversation = [];
+    document.getElementById("chatTranscript").innerHTML = "";
+    document.getElementById("metricTtft").textContent = "–";
+    document.getElementById("metricTps").textContent = "–";
+    document.getElementById("metricTotalTime").textContent = "–";
+  });
+
+  // Modals
+  document.getElementById("viewCodeBtn").addEventListener("click", openViewCodeModal);
+  document.getElementById("settingsBtn").addEventListener("click", openApiSettingsModal);
+
+  document.querySelectorAll(".modal-close-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.getElementById("viewCodeModal").hidden = true;
+      document.getElementById("apiSettingsModal").hidden = true;
+    });
+  });
+
+  // Code Modal Tabs
+  document.querySelectorAll(".code-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".code-tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      const lang = tab.dataset.lang;
+      document.getElementById("codeCurl").hidden = lang !== "curl";
+      document.getElementById("codePython").hidden = lang !== "python";
+      document.getElementById("codeJs").hidden = lang !== "js";
+      document.getElementById("codeTs").hidden = lang !== "ts";
+    });
+  });
+
+  // Save Settings Modal
+  document.getElementById("saveSettingsBtn").addEventListener("click", () => {
+    const prov = document.getElementById("settingProviderSelect").value;
+    const customUrl = document.getElementById("settingCustomUrl").value;
+    window.apiClient.setProvider(prov);
+    window.apiClient.setBaseUrl(customUrl);
+    document.getElementById("apiSettingsModal").hidden = true;
+    refreshModelDropdown();
+  });
+
+  // Optimizer Strategy Buttons
+  const optStrategiesContainer = document.getElementById("optStrategiesGrid");
+  if (optStrategiesContainer) {
+    const strategies = window.promptOptimizer.getStrategies();
+    optStrategiesContainer.innerHTML = strategies.map(s => `
+      <button class="strategy-btn" onclick="selectOptimizerStrategy('${s.id}')">
+        <div class="strategy-title">${s.title}</div>
+        <div class="strategy-desc">${s.desc}</div>
+      </button>
+    `).join("");
+  }
+
+  // Auto-Enhance Button in Optimizer
+  document.getElementById("optEnhanceBtn")?.addEventListener("click", async () => {
+    const raw = document.getElementById("optOriginalPrompt").value;
+    const outputBox = document.getElementById("optEnhancedPrompt");
+    outputBox.value = "Enhancing prompt with AI...";
+
+    await window.promptOptimizer.autoEnhanceWithAI(
+      raw,
+      (chunk) => {
+        if (chunk.type === "content") {
+          outputBox.value = chunk.fullAnswer;
+        }
+      },
+      () => {},
+      (err) => { outputBox.value = `Error: ${err.message}`; }
+    );
+  });
+
+  // Apply to Playground Button in Optimizer
+  document.getElementById("optApplyBtn")?.addEventListener("click", () => {
+    const enhanced = document.getElementById("optEnhancedPrompt").value;
+    if (enhanced) {
+      document.getElementById("promptComposer").value = enhanced;
+      switchMode("playground");
+      updatePromptAnalysis();
+    }
+  });
+
+  // Theme Toggle
+  document.getElementById("themeToggleBtn").addEventListener("click", () => {
+    const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+    const nextTheme = currentTheme === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", nextTheme);
+    localStorage.setItem("nexus_theme", nextTheme);
+  });
+
+  // Init Artifact Canvas
+  window.artifactCanvas.init();
+
+  // Load saved theme
+  const savedTheme = localStorage.getItem("nexus_theme") || "dark";
+  document.documentElement.setAttribute("data-theme", savedTheme);
+
+  // Load models initially
+  refreshModelDropdown();
+  updatePromptAnalysis();
+});
+
+window.selectOptimizerStrategy = function(id) {
+  const original = document.getElementById("optOriginalPrompt").value;
+  const result = window.promptOptimizer.applyStrategy(id, original);
+  document.getElementById("optEnhancedPrompt").value = result;
+};
+
+</script>
+</body>
+</html>
